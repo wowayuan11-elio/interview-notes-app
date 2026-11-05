@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#f2f2f7">
 <title>面试妙记</title>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
 
@@ -25,6 +25,10 @@
     <button class="dock-rec" data-act="go-rec" aria-label="开始录音">
       <span class="dr-dot"></span>
       <span>录一场</span>
+    </button>
+    <button class="dock-paste" data-act="open-up">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <span>传音频</span>
     </button>
     <button class="dock-paste" data-act="open-paste">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
@@ -90,11 +94,20 @@
   </div>
 
   <div class="card">
-    <div class="card-label">口述原文（可修改补漏）</div>
+    <div class="card-label tb-head"><span>口述原文（可修改补漏）</span>
+      <span class="t-tabs">
+        <button type="button" class="t-tab active" data-act="tab-text">原文</button>
+        <button type="button" class="t-tab" data-act="tab-people">分人</button>
+      </span>
+    </div>
     <textarea id="ed-text" class="ed-text" rows="10" placeholder="录音转写的文字在这儿，漏了的手打补上"></textarea>
+    <div id="ed-people" class="ed-people hidden"></div>
   </div>
 
-  <button class="btn" id="ai-btn" data-act="ai-review">✦ AI 复盘</button>
+  <div class="btn-row">
+    <button class="btn" id="ai-btn" data-act="ai-review">✦ AI 复盘</button>
+    <button class="btn alt" data-act="open-ask">问 AI</button>
+  </div>
 
   <div class="card review-card">
     <div class="card-label">复盘报告</div>
@@ -128,6 +141,7 @@
   </div>
 
   <button class="btn danger" data-act="wipe">清空全部记录</button>
+  <p class="ver">V2 · 边录边出字 · 传音频转写 · 问 AI · 彩色分人</p>
 </section>
 
 <!-- ===== 粘贴导入弹层 ===== -->
@@ -141,9 +155,50 @@
     <span class="sheet-x ghost"></span>
   </div>
   <div class="sheet-body">
-    <p class="sub">面试现场用豆包/飞书妙记录的文字，粘进来一样能生成 AI 复盘</p>
+    <p class="sub">面试现场用豆包/飞书妙记录的文字，粘进来一样能 AI 复盘。保留「面试官：」「我：」标记，会自动彩色分人</p>
     <textarea id="paste-area" class="paste-area" rows="9" placeholder="把转写文字粘贴到这里…"></textarea>
     <button class="btn" data-act="save-paste">存进来</button>
+  </div>
+</div>
+
+<!-- ===== 传音频弹层 ===== -->
+<div class="mask" id="up-mask"></div>
+<div class="sheet" id="up-sheet">
+  <div class="sheet-head">
+    <button class="sheet-x" data-act="close-up" aria-label="关闭">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <b>传音频转文字</b>
+    <span class="sheet-x ghost"></span>
+  </div>
+  <div class="sheet-body">
+    <p class="sub">iPhone「语音备忘录」、豆包、飞书导出的录音（m4a / mp3 / wav），最长 30 分钟</p>
+    <label class="up-pick">🎙️ 选择音频文件<input type="file" id="up-file" accept="audio/*,.m4a,.mp3,.wav" hidden></label>
+    <div class="up-prog hidden" id="up-prog">
+      <div class="up-bar"><i id="up-fill"></i></div>
+      <p class="up-status" id="up-status">准备中…</p>
+    </div>
+    <p class="data-line">音频在你手机上解码切段，只把小段发给智谱转文字；这里不保存音频，只留文字</p>
+  </div>
+</div>
+
+<!-- ===== 问AI弹层 ===== -->
+<div class="mask" id="ask-mask"></div>
+<div class="sheet" id="ask-sheet">
+  <div class="sheet-head">
+    <button class="sheet-x" data-act="close-ask" aria-label="关闭">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <b>问 AI · 这场面试</b>
+    <span class="sheet-x ghost"></span>
+  </div>
+  <div class="sheet-body ask-body">
+    <p class="sub">对着这场追问，比如：「我哪题答得最差？」「下一面该准备什么？」</p>
+    <div class="ask-list" id="ask-list"></div>
+    <div class="ask-row">
+      <input id="ask-in" class="f-input" placeholder="问点什么…" autocomplete="off">
+      <button class="ask-send" data-act="ask-send" aria-label="发送">↑</button>
+    </div>
   </div>
 </div>
 
@@ -160,6 +215,6 @@
 </div>
 
 <div id="toast"></div>
-<script src="app.js"></script>
+<script src="app.js?v=2"></script>
 </body>
 </html>
