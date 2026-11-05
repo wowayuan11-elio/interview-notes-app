@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f2f2f7">
+<title>面试妙记</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ===== 列表页 ===== -->
+<section class="page active" id="pg-list">
+  <div class="page-head">
+    <h1>面试妙记</h1>
+    <button class="icon-btn" data-act="go-set" aria-label="设置">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
+  </div>
+  <div id="rec-list" class="rec-list"></div>
+
+  <div class="dock">
+    <button class="dock-rec" data-act="go-rec" aria-label="开始录音">
+      <span class="dr-dot"></span>
+      <span>录一场</span>
+    </button>
+    <button class="dock-paste" data-act="open-paste">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+      <span>粘贴文字</span>
+    </button>
+  </div>
+</section>
+
+<!-- ===== 录音页 ===== -->
+<section class="page" id="pg-rec">
+  <div class="page-head">
+    <button class="icon-btn" data-act="back-list" aria-label="返回">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <h1 class="mid">口述复盘</h1>
+    <span class="icon-btn ghostonly"></span>
+  </div>
+
+  <div class="rec-stage">
+    <button class="big-rec" id="rec-btn" data-act="rec-toggle" aria-label="录音开关">
+      <span class="br-dot"></span><span class="br-lab">录音</span>
+    </button>
+    <div class="rec-timer" id="rec-time">00:00</div>
+    <div class="rec-count" id="rec-count"></div>
+  </div>
+
+  <div class="card live-card">
+    <div class="card-label">实时转写</div>
+    <div class="live-text" id="live-text">
+      <p class="lt idle">按下录音键开始说——想起什么说什么，说错了也行，回头一起整理</p>
+    </div>
+  </div>
+
+  <button class="paste-entry" data-act="open-paste">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+    <b>粘贴文字导入</b><span>面试现场用豆包录的，把文字粘到这儿</span>
+  </button>
+</section>
+
+<!-- ===== 编辑/详情页 ===== -->
+<section class="page" id="pg-edit">
+  <div class="page-head">
+    <button class="icon-btn" data-act="back-list" aria-label="返回">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <h1 class="mid">复盘</h1>
+    <button class="icon-btn" data-act="del-cur" aria-label="删除">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="f-row"><input id="ed-title" class="f-input title-input" placeholder="给这场起个名（如：XX科技 二面）"></div>
+    <div class="f-2col">
+      <input id="ed-company" class="f-input" placeholder="公司">
+      <input id="ed-role" class="f-input" placeholder="岗位">
+    </div>
+    <div class="stars-row">
+      <span class="stars-lab">自己打分</span>
+      <div id="ed-stars"></div>
+    </div>
+    <div class="ed-meta" id="ed-meta"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">口述原文（可修改补漏）</div>
+    <textarea id="ed-text" class="ed-text" rows="10" placeholder="录音转写的文字在这儿，漏了的手打补上"></textarea>
+  </div>
+
+  <button class="btn" id="ai-btn" data-act="ai-review">✦ AI 复盘</button>
+
+  <div class="card review-card">
+    <div class="card-label">复盘报告</div>
+    <div class="review-body" id="ed-review"></div>
+  </div>
+
+  <button class="linklike export" data-act="export">导出这条的备份</button>
+</section>
+
+<!-- ===== 设置页 ===== -->
+<section class="page" id="pg-set">
+  <div class="page-head">
+    <button class="icon-btn" data-act="back-list" aria-label="返回">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <h1 class="mid">设置</h1>
+    <span class="icon-btn ghostonly"></span>
+  </div>
+
+  <div class="card">
+    <div class="card-label">智谱 API 钥匙（转写 + AI 复盘都用它）</div>
+    <input id="set-key" class="f-input mono" type="password" placeholder="粘贴智谱 API Key" autocomplete="off">
+    <p class="key-hint">和体重 App 用的是同一把钥匙。存在你这台手机本地，不会传到别处</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">数据在哪、怎么丢、怎么防</div>
+    <p class="data-line"><b>存在哪：</b>这台手机的浏览器本地（localStorage），换手机/清浏览器数据会丢</p>
+    <p class="data-line"><b>防丢：</b>每条复盘页底部有「导出备份」按钮，导出的是 JSON 文件，存到「文件」App 里就安全了</p>
+    <p class="data-line"><b>建议：</b>重要的场次，面完当天就导出一份</p>
+  </div>
+
+  <button class="btn danger" data-act="wipe">清空全部记录</button>
+</section>
+
+<!-- ===== 粘贴导入弹层 ===== -->
+<div class="mask" id="paste-mask"></div>
+<div class="sheet" id="paste-sheet">
+  <div class="sheet-head">
+    <button class="sheet-x" data-act="close-paste" aria-label="关闭">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <b>粘贴文字导入</b>
+    <span class="sheet-x ghost"></span>
+  </div>
+  <div class="sheet-body">
+    <p class="sub">面试现场用豆包/飞书妙记录的文字，粘进来一样能生成 AI 复盘</p>
+    <textarea id="paste-area" class="paste-area" rows="9" placeholder="把转写文字粘贴到这里…"></textarea>
+    <button class="btn" data-act="save-paste">存进来</button>
+  </div>
+</div>
+
+<!-- ===== 确认弹窗 ===== -->
+<div class="modal-wrap" id="modal">
+  <div class="modal-bg" id="modal-bg"></div>
+  <div class="modal-box">
+    <p id="modal-text"></p>
+    <div class="modal-btns">
+      <button class="mbtn" id="modal-cancel">取消</button>
+      <button class="mbtn ok" id="modal-ok">确认</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
